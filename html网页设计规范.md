@@ -1,88 +1,489 @@
-# HTML 网页设计规范
+---
+description: UI 设计规范
+alwaysApply: false
+---
+## 二、排版系统
 
-## 目的
-本规范旨在统一项目中 HTML 页面结构、可维护性和可访问性，提升开发效率并保证良好的用户体验。
+### 字体栈
+```css
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+             "Helvetica Neue", Arial, sans-serif;
+```
+**原则**：系统原生字体，保证跨平台一致性
 
-## 文件命名与存放位置
-- 使用 UTF-8 无 BOM 编码。
-- 文件扩展名使用小写 `.md`（本规范为文档），页面文件使用 `.html`。
-- 将文档放在 docs/ 或设计规范目录下；页面文件放在 `src/` 或 `public/` 下对应模块目录。
+### 字号规范
+```css
+--fs-h1: 32px;        /* 主标题 */
+--fs-h2: 18px;        /* 区块标题 */
+--fs-body: 15px;      /* 正文、按钮、输入框 */
+--fs-label: 14px;     /* Label、提示 */
+--fs-code: 13px;      /* 代码、数据 */
+```
 
-## 文档结构与语义化
-- 使用语义化标签（header, nav, main, article, section, aside, footer）代替大量 div。
-- 页面必须包含 `<!DOCTYPE html>` 声明和正确的 `lang` 属性，例如 `<html lang="zh-CN">`。
-- 每个页面应有唯一的 `<title>`，并在 head 中包含必要的 meta（charset, viewport, description）。
+### 字重规范
+```css
+--fw-bold: 600;       /* 标题 */
+--fw-medium: 500;     /* Label、按钮 */
+--fw-normal: 400;     /* 正文 */
+```
 
-## 无障碍（Accessibility）
-- 图片必须包含有意义的 `alt` 属性；纯装饰性图片 `alt=""` 并加 `role="presentation"`。
-- 表单控件必须有关联的 `<label>` 或 `aria-label`/`aria-labelledby`。
-- 交互元素（按钮、链接）应可通过键盘操作并提供明显的焦点样式。
+### Letter Spacing（微调）
+```css
+h1: -0.5px;           /* 大标题收紧 */
+.section-title: -0.3px;
+.btn: -0.2px;
+```
 
-## 响应式与视口
-- 在 head 中加入 `<meta name="viewport" content="width=device-width, initial-scale=1">`。
-- 使用移动优先的响应式设计（mobile-first）。
+---
 
-## SEO 基础
-- 每个页面应包含描述性的 `<meta name="description">`。
-- 使用语义化标题（h1~h6），且页面只出现一个 h1。
-- 对重要内容使用结构化数据（必要时使用 JSON-LD）。
+## 三、间距系统
 
-## 资源引用与路径
-- 使用相对或根路径引用资源，避免使用硬编码主机名。
-- 静态资源（图片、字体）应放在统一目录并启用缓存策略。
+### 基础单位：8px
 
-## CSS / JS 分离
-- 结构（HTML）与表现（CSS）与行为（JS）分离。
-- 尽量将关键 CSS 内联以减少首次绘制时间，将其余样式异步加载或打包。
+```css
+/* 内边距 */
+--p-xs: 8px;
+--p-sm: 16px;
+--p-md: 20px;
+--p-lg: 32px;
+--p-xl: 40px;
 
-## 图片与多媒体优化
-- 使用现代图片格式（WebP/AVIF）并提供回退格式。
-- 根据设备像素比提供不同分辨率的图片（srcset）。
+/* 外边距 */
+--m-sm: 8px;
+--m-md: 24px;
+--m-lg: 48px;
+```
 
-## 国际化与本地化
-- 文案应支持国际化，避免在 HTML 中写死语言字符串，使用翻译文件或模板变量。
-- 使用正确的 `lang` 属性并在必要时设置 `dir="rtl"`。
+### 应用规则
+```css
+/* 卡片 */
+.section {
+    padding: 32px;           /* 内部宽松 */
+    margin-bottom: 24px;     /* 卡片间距 */
+}
 
-## 代码风格与可读性
-- 缩进使用两个或四个空格，团队统一即可。
-- 保持标签与属性的书写一致，属性值使用双引号。
+/* 表单组 */
+.form-group {
+    margin-bottom: 20px;     /* 表单项间距 */
+}
 
-## 注释与文档
-- 在模板/组件中为复杂结构添加简短注释，解释意图而非复述代码。
+/* Label */
+label {
+    margin-bottom: 8px;      /* Label 到输入框 */
+}
 
-## 示例模板（基础）
+/* 页面边距 */
+body {
+    padding: 40px 20px;      /* 顶部宽松，左右适中 */
+}
+```
+
+---
+
+## 四、圆角系统
+
+### 统一圆角规范
+```css
+--radius-lg: 12px;    /* 卡片 */
+--radius-md: 8px;     /* 按钮、输入框、提示框 */
+--radius-sm: 4px;     /* 滚动条 */
+```
+
+### 避免
+- ❌ 直角（0px）
+- ❌ 过圆（16px+）
+- ✅ 适中圆角（8-12px）
+
+---
+
+## 五、阴影系统
+
+### 轻量级阴影（Light Shadows）
+```css
+/* 卡片阴影 - 几乎不可见 */
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+
+/* 按钮 Hover 阴影 */
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+/* Focus 阴影 - 黑色透明 */
+box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+```
+
+### 原则
+- **静态状态**：阴影极轻（不可察觉）
+- **交互状态**：阴影稍重（提供反馈）
+- **颜色**：黑色半透明（避免彩色阴影）
+
+---
+
+## 六、组件规范
+
+### 1. 按钮（Button）
+```css
+.btn {
+    padding: 12px 28px;
+    background: #1a1a1a;      /* 纯黑背景 */
+    color: white;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    letter-spacing: -0.2px;
+}
+
+.btn:hover {
+    background: #2d2d2d;      /* 变亮 */
+    transform: translateY(-1px); /* 微抬升 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+    transform: translateY(0);  /* 按下归位 */
+}
+
+.btn:disabled {
+    background: #d1d1d1;      /* 浅灰 */
+    cursor: not-allowed;
+    transform: none;
+}
+```
+
+### 2. 输入框（Input/Select）
+```css
+input, select {
+    padding: 12px 16px;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+input:hover, select:hover {
+    border-color: #999;        /* Hover 变深 */
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #1a1a1a;     /* Focus 纯黑边框 */
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+}
+```
+
+### 3. 卡片（Card/Section）
+```css
+.section {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+```
+
+### 4. 标签页（Tabs）
+```css
+.tab {
+    padding: 12px 20px;
+    border-bottom: 2px solid transparent;
+    color: #6e6e6e;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    color: #1a1a1a;
+    background: #fafafa;       /* 轻微背景变化 */
+}
+
+.tab.active {
+    color: #1a1a1a;
+    border-bottom-color: #1a1a1a; /* 底部黑线 */
+}
+```
+
+### 5. 代码/结果框（Code Box）
+```css
+.result-box {
+    background: #f8f8f8;       /* 浅灰背景 */
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'SF Mono', 'Monaco', monospace; /* 等宽字体 */
+    font-size: 13px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* 滚动条样式 */
+.result-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.result-box::-webkit-scrollbar-thumb {
+    background: #d1d1d1;
+    border-radius: 4px;
+}
+```
+
+### 6. Loading 动画
+```css
+.spinner {
+    border: 2px solid #f0f0f0;      /* 轨道灰 */
+    border-top: 2px solid #1a1a1a;  /* 转动黑 */
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 0.8s linear infinite;
+}
+```
+
+### 7. 状态提示
+```css
+/* 成功 - 低饱和 */
+.success {
+    background: #f7fafc;
+    border: 1px solid #cbd5e0;
+    color: #2d3748;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+/* 错误 - 低饱和 */
+.error {
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    color: #c53030;
+    padding: 16px;
+    border-radius: 8px;
+}
+```
+
+---
+
+## 七、动画与过渡
+
+### 统一时长
+```css
+transition: all 0.2s ease;  /* 通用：200ms */
+animation: spin 0.8s linear infinite; /* Loading：800ms */
+```
+
+### 微交互
+```css
+/* 按钮抬升 */
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* 按钮按下 */
+.btn:active {
+    transform: translateY(0);
+}
+
+/* 淡入效果 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+```
+
+---
+
+## 八、布局规范
+
+### 容器宽度
+```css
+.container {
+    max-width: 1000px;         /* 不要过宽 */
+    margin: 0 auto;
+}
+```
+
+### 留白原则
+- **页面边距**：40px 顶部 + 20px 左右
+- **卡片间距**：24px
+- **区块内部**：32px 内边距
+- **表单项间距**：20px
+
+### 垂直节奏
+```css
+/* 头部 */
+.header {
+    margin-bottom: 48px;       /* 大留白 */
+}
+
+/* 标题到内容 */
+.section-title {
+    margin-bottom: 24px;       /* 中等留白 */
+}
+
+/* 输入框到按钮 */
+button {
+    margin-top: 0;             /* 紧凑 */
+}
+```
+
+---
+
+## 九、响应式原则
+
+### 移动端适配
+```css
+@media (max-width: 768px) {
+    body {
+        padding: 20px 16px;    /* 缩小边距 */
+    }
+    
+    .section {
+        padding: 24px;         /* 缩小内边距 */
+    }
+    
+    h1 {
+        font-size: 28px;       /* 缩小标题 */
+    }
+}
+```
+
+---
+
+## 十、代码模板（快速复用）
+
+### 基础框架
 ```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>页面标题 - 项目名</title>
-  <meta name="description" content="页面描述，便于 SEO 和社交分享。">
-  <link rel="stylesheet" href="/assets/styles/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品名称</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #6e6e6e;
+            font-size: 15px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .btn {
+            padding: 12px 28px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #2d2d2d;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <!-- 导航 -->
-  </header>
-  <main>
-    <h1>页面主标题</h1>
-    <section>
-      <h2>小节标题</h2>
-      <p>内容...</p>
-    </section>
-  </main>
-  <footer>
-    <!-- 页脚 -->
-  </footer>
-  <script src="/assets/scripts/main.js" defer></script>
+    <div class="container">
+        <div class="header">
+            <h1>产品标题</h1>
+            <p class="subtitle">Product Subtitle</p>
+        </div>
+
+        <div class="section">
+            <button class="btn">开始使用</button>
+        </div>
+    </div>
 </body>
 </html>
 ```
 
-## 版本与变更记录
-- 在文档顶部或单独文件中记录主要变更和版本号，以便追踪规范演进。
+---
+
+## 十一、设计检查清单
+
+### ✅ 色彩
+- [ ] 使用中性色系（灰、白、黑）
+- [ ] 避免紫色和高饱和度颜色
+- [ ] 状态色低饱和
+
+### ✅ 圆角
+- [ ] 卡片 12px
+- [ ] 按钮/输入框 8px
+- [ ] 避免直角
+
+### ✅ 阴影
+- [ ] 卡片阴影极轻（0.04 透明度）
+- [ ] Hover 阴影适中（0.15 透明度）
+- [ ] 使用黑色半透明
+
+### ✅ 留白
+- [ ] 页面边距充足（40px+）
+- [ ] 卡片内边距宽松（32px）
+- [ ] 组件间距适中（20-24px）
+
+### ✅ 字体
+- [ ] 系统原生字体栈
+- [ ] 字号合理（13-32px）
+- [ ] 字重克制（400/500/600）
+
+### ✅ 动画
+- [ ] 过渡时间统一（0.2s）
+- [ ] 微交互自然（抬升/按下）
+- [ ] 避免过度动画
 
 ---
 
-如需我把文件放到特定目录（例如 `docs/` 或 `website/`）或用特性分支提交，请告诉我目标路径和分支名称。
+## 总结
+
+**三个关键词**：
+1. **克制**：不滥用颜色、阴影、动画
+2. **留白**：充足的空间让内容呼吸
+3. **轻量**：轻边框、轻阴影、轻交互
+
+**对比其他风格**：
+- ❌ 不是 Material Design（太重）
+- ❌ 不是 Ant Design（太复杂）
+- ✅ 更像 Linear、Stripe、Vercel（极简科技感）
+
+**核心原则**：Less is More
+
